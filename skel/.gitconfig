@@ -1,0 +1,63 @@
+[user]
+    name = ophayden 
+    email = haydenkk13@gmail.com 
+
+[alias]
+    ; help
+    list-aliases = "!git config -l | grep alias | cut -c 7-"
+
+    ; log
+    root = rev-parse --show-toplevel
+    l = log --decorate --oneline --graph
+    la = log --decorate --oneline --graph --all
+    last = log -1 HEAD --decorate
+
+    ; branch
+    co = checkout
+    cob = checkout -b
+    b = branch -vv
+    br = branch -r
+    branch-name = rev-parse --abbrev-ref HEAD
+
+    ; commits
+    a = add -A
+    cm = commit -m
+    ca = commit --amend
+
+    ; resets
+    unstage = reset HEAD --
+    soft-reset = reset --soft HEAD~1
+    hard-reset = reset --hard
+    full-hard-reset = !git f && git hard-reset origin/$(git branch-name) && git smu && git st
+
+    ; git everything
+    st = status -sb
+    f = fetch --tags --all --prune
+    s = !git f && git st
+
+    ; diff
+    d = diff
+    ds = diff --stat
+    dc = diff --cached
+
+    ; stash
+    sl = stash list
+    sa = stash apply
+    sp = stash push --include-untracked
+    spm = !git sp --message
+
+    ; submodule
+    smu = submodule update --recursive --init
+
+[core]
+    excludesfile = ~/.gitignore
+
+[diff "xlsx"]
+    binary = true
+    textconv = ~/.xlsx_to_txt.py
+
+[filter "lfs"]
+    required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
