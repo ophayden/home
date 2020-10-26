@@ -16,10 +16,12 @@ eesc='\]'
 black=$sesc'\033[m'$eesc
 bold_black=$sesc'\033[1m'$eesc
 bold_cyan=$sesc'\033[1;36m'$eesc
-usr='${USER//[aeiou]}'
+#usr='${USER//[aeiou]}'
+usr='$USER'
 host='$(
     hn=$(hostname -s)
-    echo -n ${hn//[aeiou]}
+    #echo -n ${hn//[aeiou]}
+    echo -n $hn
 )'
 usr_host=$bold_black"$usr"'@'"$host"$black
 
@@ -162,9 +164,6 @@ else
     export EDITOR=nano
 fi
 export VIEWER=less
-
-# Change directory aliases
-alias cdp='cd "$(pwd -P)"'
 
 # Kill aliases
 alias ki='kill -s INT'
