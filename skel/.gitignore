@@ -35,3 +35,17 @@ cpp.hint
 .syn
 .mypy_cache/
 bldall
+*.str
+*.jou
+*.log
+*.mti
+*.wdf
+*.rst
+*.xml
+*.sh
+*.pb
+*.js
+*.prj
+*.ini
+*.tcl
+*.wpc
