@@ -1,0 +1,7 @@
+#!/bin/bash
+
+cd skel
+
+for i in .??*; do
+    diff "$i" ~/"$i"
+done
