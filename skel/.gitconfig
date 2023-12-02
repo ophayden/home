@@ -1,63 +1,65 @@
 [user]
-    name = ophayden 
-    email = haydenkk13@gmail.com 
+    name = Lucas Wilson
+    email = lkwilson96@gmail.com
 
 [alias]
-    ; help
+    ; helpers
     list-aliases = "!git config -l | grep alias | cut -c 7-"
-
-    ; log
     root = rev-parse --show-toplevel
-    l = log --decorate --oneline --graph
-    la = log --decorate --oneline --graph --all
-    last = log -1 HEAD --decorate
-
-    ; branch
-    co = checkout
-    cob = checkout -b
-    b = branch -vv
-    br = branch -r
     branch-name = rev-parse --abbrev-ref HEAD
-
-    ; commits
-    a = add -A
-    cm = commit -m
-    ca = commit --amend
-
-    ; resets
-    unstage = reset HEAD --
-    soft-reset = reset --soft HEAD~1
-    hard-reset = reset --hard
-    full-hard-reset = !git f && git hard-reset origin/$(git branch-name) && git smu && git st
 
     ; git everything
     st = status -sb
     f = fetch --tags --all --prune
     s = !git f && git st
 
+    ; log
+    l = log --decorate --oneline --graph
+    lr = log --decorate --oneline --graph HEAD @{u}
+    lh = !git l --color=always | head
+    la = log --decorate --oneline --graph --all
+    lref = log --decorate --oneline --graph --reflog
+
+    ; branch
+    c = checkout
+    cb = checkout -b
+    b = branch -vv
+    br = branch -r
+    bu = !git branch -u origin/$(git branch-name)
+
+    ; pushing
+    p = push
+    po = !git p -u origin $(git branch-name)
+
+    ; commits
+    a = add -A
+    cm = commit -m
+    ca = commit --amend
+
+    ; show
+    ss = show --stat
+
     ; diff
     d = diff
-    ds = diff --stat
     dc = diff --cached
+    ds = diff --stat
+    dr = diff @{u}
+    drc = diff --cached @{u}
+    drs = diff --stat @{u}
+    drcs = diff --stat --cached @{u}
 
-    ; stash
-    sl = stash list
-    sa = stash apply
-    sp = stash push --include-untracked
-    spm = !git sp --message
+    ; remote
+    rv = remote -v
 
     ; submodule
-    smu = submodule update --recursive --init
+    su = submodule update
 
 [core]
     excludesfile = ~/.gitignore
+    autocrlf = false
 
-[diff "xlsx"]
-    binary = true
-    textconv = ~/.xlsx_to_txt.py
+[pull]
+    ff = only
 
-[filter "lfs"]
-    required = true
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
+[init]
+    defaultBranch = main

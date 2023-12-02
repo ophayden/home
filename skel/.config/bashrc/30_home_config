@@ -1,0 +1,68 @@
+# Have ctrl c clear current line
+type tput &>/dev/null && {
+  trap 'tput dl1; tput cuu1' INT
+  # trap "tput -S <<< 'dl1 cuu1'" SIGINT
+}
+
+# Set ls color
+export LS_COLORS='ow=01;36;40'
+alias ls="ls --color=auto -F"
+
+# Set grep colors
+alias grep="grep --color=auto"
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# HISTORY Configuration
+# Don't put duplicate lines or lines starting with space in the history.
+HISTCONTROL=ignoreboth
+# append to the history file, don't overwrite it
+shopt -s histappend
+# for setting history length see HISTSIZE and HISTFILESIZE
+HISTSIZE=
+HISTFILESIZE=
+
+# OTHER Configurations
+# Check the window size after each command and, if necessary, update the values
+# of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# Don't tab complete on empty prompt
+shopt -s no_empty_cmd_completion
+
+# Auto cd into dirs
+shopt -s autocd
+
+# Glob star
+shopt -s globstar
+
+# Some ls aliases
+alias ll='ls -al'
+
+# Use vi on the cmd line
+set -o vi
+
+# Use nvim over vim over vi
+if type nvim &>/dev/null; then
+  export EDITOR=nvim
+  alias vi=nvim
+  alias vim=nvim
+elif type vim &>/dev/null; then
+  export EDITOR=vim
+  alias vi=vim
+elif type vi &>/dev/null; then
+  export EDITOR=vi
+  alias vim=vi
+elif type nano &>/dev/null; then
+  export EDITOR=nano
+fi
+alias e="$EDITOR"
+export VIEWER=less
+
+# Change directory aliases
+alias cdp='cd "$(pwd -P)"'
+alias cdh='cd "$(pwd)"'
+alias ..='cd ..'
+alias ...='..; ..'
+alias ....='...; ..'
+alias .....='....; ..'

@@ -1,0 +1,69 @@
+# Set usr bin
+usr_bin="$HOME/bin"
+if [ -d "$usr_bin" ]; then
+    PATH="$usr_bin:$PATH"
+fi
+
+# bash completion
+if ! shopt -oq posix; then
+    if [ -f /usr/share/bash-completion/bash_completion ]; then
+        bash_completion_base=/usr/share/bash-completion
+    elif [ -f /etc/bash_completion ]; then
+        bash_completion_base=/etc
+    elif [ -f /opt/homebrew/etc/bash_completion ]; then
+        bash_completion_base=/opt/homebrew/etc
+    fi
+    if [ -f $bash_completion_base/bash_completion ]; then
+        . $bash_completion_base/bash_completion
+    fi
+fi
+
+setup_git() {
+    function_exists() {
+      declare -f -F $1 > /dev/null
+      return $?
+    }
+
+    if ! function_exists __git_aliased_command; then
+        if [ -r "$bash_completion_base/completions/git" ]; then
+            . "$bash_completion_base/completions/git"
+        else
+            return
+        fi
+    fi
+
+    for al in $(git config --get-regexp '^alias\.' | cut -f 1 -d ' ' | cut -f 2 -d '.'); do
+        alias g$al="git $al"
+        complete_func=_git_$(__git_aliased_command $al)
+        function_exists $complete_func && __git_complete g$al $complete_func
+    done
+    unset al
+
+    # Set git branch PS1
+    _ps1_git_prefix() {
+        if git rev-parse &>/dev/null; then
+            _ps1_git=$(git branch-name 2>/dev/null)
+        else
+            _ps1_git=''
+        fi
+    }
+    PROMPT_COMMAND="_ps1_git_prefix;$PROMPT_COMMAND"
+}
+
+# git
+if type git &>/dev/null; then
+    setup_git
+fi
+
+# fzf
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+if type code &>/dev/null; then
+    alias ch='code .'
+fi
+
+# Remap capslock to ctrl
+type setxkbmap &>/dev/null && {
+    setxkbmap -option ctrl:nocaps &>/dev/null
+    setxkbmap -o ctrl:nocaps &>/dev/null
+}

@@ -17,35 +17,13 @@ __pycache__/
 .*.swp
 
 .DS_Store
-build.py
-build_mac.py
-
-logs/*
-build/*
-build/.*
-.build
-.nbs.history.txt
-.nbs.cmd
 
 .idea/
 .vscode/
-.clang-format
 
+.clang-format
 cpp.hint
+
 .syn
 .mypy_cache/
-bldall
-*.str
-*.jou
-*.log
-*.mti
-*.wdf
-*.rst
-*.xml
-*.sh
-*.pb
-*.js
-*.prj
-*.ini
-*.tcl
-*.wpc
+.auto_project
